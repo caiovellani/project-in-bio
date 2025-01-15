@@ -15,7 +15,7 @@ export default function CreatePage() {
 				<form className="w-full flex items-center gap-2" action="">
 					<span className="text-white">projectinbio.com/</span>
 					<TextInput />
-					<Button>Criar</Button>
+					<Button className="w-[126px]">Criar</Button>
 				</form>
 				<div className="">
 					<span className="text-accent-pink">Erro de exemplo</span>
