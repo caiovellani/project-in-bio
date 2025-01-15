@@ -4,9 +4,7 @@ import { getStorage } from "firebase-admin/storage";
 import "server-only";
 
 // Certificado
-
 const decodedKey = Buffer.from(
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	process.env.FIREBASE_PRIVATE_KEY_BASE64!,
 	"base64",
 ).toString("utf-8");

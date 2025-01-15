@@ -1,4 +1,4 @@
-import { manageAuth } from "../../../actions/manage-auth";
+import { manageAuth } from "../../actions/manage-auth";
 import { auth } from "../../lib/auth";
 import Button from "../ui/button";
 
