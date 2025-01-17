@@ -4,13 +4,15 @@ import { getStorage } from "firebase-admin/storage";
 import "server-only";
 
 // Certificado
-const privateKey =
-	process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n") ?? "";
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+const privateKeyFormatted = process.env
+	.FIREBASE_PRIVATE_KEY!.split(String.raw`\n`)
+	.join("\n");
 
 export const firebaseCert = cert({
 	projectId: process.env.FIREBASE_PROJECT_ID,
 	clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-	privateKey: privateKey,
+	privateKey: privateKeyFormatted,
 });
 
 // Instância do APP
