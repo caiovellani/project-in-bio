@@ -2,10 +2,10 @@ import ProjectCard from "@/app/components/commons/project-card";
 import TotalVisits from "@/app/components/commons/total-visits";
 import UserCard from "@/app/components/commons/user-card";
 import Link from "next/link";
-import { getProfileData } from "../../server/get-profile-data";
 import { notFound } from "next/navigation";
 import { auth } from "../../lib/auth";
-import NewProject from "./new-project";
+import NewProject from "../[profileId]/new-project";
+import { getProfileData } from "../../server/get-profile-data";
 
 export default async function ProfilePage({
 	params,
