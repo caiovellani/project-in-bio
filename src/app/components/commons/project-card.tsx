@@ -7,7 +7,7 @@ export default function ProjectCard({
 	project,
 	isOwner,
 	img,
-}: { project: ProjectData; isOwner: boolean; img: string | undefined }) {
+}: { project: ProjectData; isOwner: boolean; img: string }) {
 	const projectUrl = project.projectUrl;
 	const formattedUrl = projectUrl.startsWith("http")
 		? projectUrl
