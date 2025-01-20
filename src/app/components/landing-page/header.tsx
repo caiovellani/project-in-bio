@@ -14,7 +14,7 @@ export default async function Header() {
 				<h3 className="text-white text-2xl font-bold">ProjectInBio</h3>
 			</div>
 			<div className="flex items-center gap-4">
-				{session && <Button>Miinha Página</Button>}
+				{session && <Button>Minha Página</Button>}
 				<form action={manageAuth}>
 					<Button>{session ? "Sair" : "Login"}</Button>
 				</form>
