@@ -6,7 +6,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { auth } from "../../lib/auth";
 import NewProject from "./new-project";
-import { getProfileData } from "../../server/get-profile-data";
+import {
+	getProfileData,
+	getProfileProjects,
+} from "../../server/get-profile-data";
+import { getDownloadURL } from "../../lib/firebase";
 
 export default async function ProfilePage({
 	params,
@@ -19,7 +23,7 @@ export default async function ProfilePage({
 
 	if (!profileData) return notFound();
 
-	//TODO: get projects;
+	const projects = await getProfileProjects(profileId);
 
 	const session = await auth();
 	const isOwner = profileData.userId === session?.user?.id;
@@ -42,13 +46,16 @@ export default async function ProfilePage({
 				<UserCard />
 			</div>
 			<div className="w-full flex justify-center content-start gap-4 flex-wrap overflow-y-auto">
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
-				<ProjectCard />
+				{projects.map(async (project) => {
+					return (
+						<ProjectCard
+							key={project.id}
+							project={project}
+							isOwner={isOwner}
+							img={await getDownloadURL(project.imagePath)}
+						/>
+					);
+				})}
 
 				{isOwner && <NewProject profileId={profileId} />}
 			</div>
