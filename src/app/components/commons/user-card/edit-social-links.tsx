@@ -1,61 +1,50 @@
 "use client";
-
-import {
-	Facebook,
-	Github,
-	Instagram,
-	Linkedin,
-	Plus,
-	Twitter,
-} from "lucide-react";
+import { Github, Instagram, Linkedin, Plus, Twitter } from "lucide-react";
 import { startTransition, useState } from "react";
 import Modal from "../../ui/modal";
 import Button from "../../ui/button";
 import { useParams, useRouter } from "next/navigation";
-import { createSocialLinks } from "../../../actions/create-social-links";
+import createSocialLinks from "@/app/actions/create-social-links";
 import TextInput from "../../ui/text-input";
-
-export default function EditSocialLinks() {
+import type { ProfileData } from "../../../server/get-profile-data";
+export default function EditSocialLinks({
+	socialMedias,
+}: {
+	socialMedias?: ProfileData["socialMedias"];
+}) {
 	const router = useRouter();
-
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isSavingSocialLinks, setIsSavingSocialLinks] = useState(false);
-
-	const [github, setGithub] = useState("");
-	const [instagram, setInstagram] = useState("");
-	const [linkedin, setLinkedin] = useState("");
-	const [twitter, setTwitter] = useState("");
-	const [facebook, setFacebook] = useState("");
+	const [github, setGithub] = useState(socialMedias?.github || "");
+	const [instagram, setInstagram] = useState(socialMedias?.instagram || "");
+	const [linkedin, setLinkedin] = useState(socialMedias?.linkedin || "");
+	const [twitter, setTwitter] = useState(socialMedias?.twitter || "");
 
 	const { profileId } = useParams();
 
+	//TODO: Resolver essa parte do código.
 	async function handleAddSocialLinks() {
 		setIsSavingSocialLinks(true);
-
 		if (!profileId) return;
-
 		await createSocialLinks({
 			profileId: profileId as string,
 			github,
 			instagram,
 			linkedin,
 			twitter,
-			facebook,
 		});
-
 		startTransition(() => {
 			setIsModalOpen(false);
 			setIsSavingSocialLinks(false);
 			router.refresh();
 		});
 	}
-
 	return (
 		<>
+			{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
 			<button
 				onClick={() => setIsModalOpen(true)}
-				type="button"
-				className="p-3 rounded-xl bg-[#1E1E1E] hover:bg-[#2E2E2E] focus:outline-none focus:ring-2 focus:ring-purple-600"
+				className="p-3 rounded-xl bg-[#1E1E1E] hover:bg-[#2E2E2E]"
 			>
 				<Plus />
 			</button>
@@ -75,12 +64,12 @@ export default function EditSocialLinks() {
 							/>
 						</div>
 						<div className="flex items-center gap-2 w-full">
-							<Facebook />
+							<Linkedin />
 							<TextInput
 								type="text"
-								placeholder="Link Facebook"
-								value={facebook}
-								onChange={(e) => setFacebook(e.target.value)}
+								placeholder="Link LinkedIn"
+								value={linkedin}
+								onChange={(e) => setLinkedin(e.target.value)}
 							/>
 						</div>
 						<div className="flex items-center gap-2 w-full">
@@ -90,15 +79,6 @@ export default function EditSocialLinks() {
 								placeholder="Link Instagram"
 								value={instagram}
 								onChange={(e) => setInstagram(e.target.value)}
-							/>
-						</div>
-						<div className="flex items-center gap-2 w-full">
-							<Linkedin />
-							<TextInput
-								type="text"
-								placeholder="Link Linkedin"
-								value={linkedin}
-								onChange={(e) => setLinkedin(e.target.value)}
 							/>
 						</div>
 						<div className="flex items-center gap-2 w-full">
@@ -112,9 +92,9 @@ export default function EditSocialLinks() {
 						</div>
 					</div>
 					<div className="flex gap-4 justify-end">
+						{/* biome-ignore lint/a11y/useButtonType: <explanation> */}
 						<button
 							onClick={() => setIsModalOpen(false)}
-							type="button"
 							className="font-bold text-white"
 						>
 							Voltar
