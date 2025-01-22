@@ -1,8 +1,9 @@
-import { Github, Instagram, Linkedin, Twitter, Plus } from "lucide-react";
+import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import Button from "../../ui/button";
 import EditSocialLinks from "./edit-social-links";
 import Link from "next/link";
 import type { ProfileData } from "../../../server/get-profile-data";
+import AddCustomLink from "./add-custom-link";
 
 export default function UserCard({
 	profileData,
@@ -74,15 +75,36 @@ export default function UserCard({
 			</div>
 			<div className="flex flex-col  gap-3 w-full h-[172px]">
 				<div className="w-full flex flex-col items-center gap-3">
-					<Button className="w-full">Template SaaS - Compre Agora</Button>
-					<button
-						className="p-3 rounded-xl bg-[#1E1E1E] hover:bg-[#2E2E2E] focus:outline-none focus:ring-2 focus:ring-purple-600"
-						type="button"
-					>
-						<Plus />
-					</button>
+					{profileData?.link1 && (
+						<Link
+							href={profileData?.link1.url}
+							target="_blank"
+							className="w-full"
+						>
+							<Button className="w-full">{profileData?.link1.title}</Button>
+						</Link>
+					)}
+					{profileData?.link2 && (
+						<Link
+							href={profileData?.link2.url}
+							target="_blank"
+							className="w-full"
+						>
+							<Button className="w-full">{profileData?.link2.title}</Button>
+						</Link>
+					)}
+					{profileData?.link3 && (
+						<Link
+							href={profileData?.link3.url}
+							target="_blank"
+							className="w-full"
+						>
+							<Button className="w-full">{profileData?.link3.title}</Button>
+						</Link>
+					)}
 				</div>
 			</div>
+			<AddCustomLink />
 		</div>
 	);
 }

@@ -1,4 +1,5 @@
 "use server";
+import type { Link } from "../actions/add-custom-links";
 import { db } from "../lib/firebase";
 export type ProfileData = {
 	userId: string;
@@ -10,6 +11,9 @@ export type ProfileData = {
 		linkedin: string;
 		twitter: string;
 	};
+	link1?: Link;
+	link2?: Link;
+	link3?: Link;
 	updatedAt?: number;
 };
 
