@@ -4,17 +4,24 @@ import EditSocialLinks from "./edit-social-links";
 import Link from "next/link";
 import type { ProfileData } from "../../../server/get-profile-data";
 import AddCustomLink from "./add-custom-link";
+import EditUserCard from "./edit-user-card";
+import { getDownloadURL } from "../../../lib/firebase";
 
-export default function UserCard({
+export default async function UserCard({
 	profileData,
+	isOwner,
 }: {
 	profileData?: ProfileData;
+	isOwner: boolean;
 }) {
 	return (
 		<div className="w-[348px] flex flex-col gap-5 items-center p-5 border border-white border-opacity-10 bg-[#121212] rounded-3xl text-white">
 			<div className="size-48">
 				<img
-					src="http://github.com/caiovellani.png"
+					src={
+						(await getDownloadURL(profileData?.imagePath || "")) ||
+						"http://github.com/caiovellani.png"
+					}
 					alt="Foto do Github Profile"
 					className="rounded-full object-cover w-full h-full"
 				/>
@@ -22,10 +29,13 @@ export default function UserCard({
 			<div className="flex flex-col gap-2 w-full">
 				<div className="flex items-center gap-2">
 					<h3 className="text-3xl font-bold min-w-0 overflow-hidden">
-						Caio Vellani
+						{profileData?.name || "Caio Vellani"}
 					</h3>
+					{isOwner && <EditUserCard profileData={profileData} />}
 				</div>
-				<p className="opacity-40">"Eu faço programas"</p>
+				<p className="opacity-40">
+					{profileData?.description || '"Eu faço programas"'}
+				</p>
 			</div>
 			<div className="flex flex-col gap-2 w-full">
 				<span className="uppercase text-xs font-medium">Links</span>
@@ -70,10 +80,12 @@ export default function UserCard({
 						</Link>
 					)}
 
-					<EditSocialLinks socialMedias={profileData?.socialMedias} />
+					{isOwner && (
+						<EditSocialLinks socialMedias={profileData?.socialMedias} />
+					)}
 				</div>
 			</div>
-			<div className="flex flex-col  gap-3 w-full h-[172px]">
+			<div className="flex flex-col  gap-3 w-full min-h-[172px]">
 				<div className="w-full flex flex-col items-center gap-3">
 					{profileData?.link1 && (
 						<Link
@@ -102,9 +114,9 @@ export default function UserCard({
 							<Button className="w-full">{profileData?.link3.title}</Button>
 						</Link>
 					)}
+					{isOwner && <AddCustomLink />}
 				</div>
 			</div>
-			<AddCustomLink />
 		</div>
 	);
 }

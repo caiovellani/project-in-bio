@@ -6,7 +6,11 @@ import { startTransition, useState } from "react";
 import TextInput from "../../components/ui/text-input";
 import TextArea from "../../components/ui/text-area";
 import Button from "../../components/ui/button";
-import { compressFiles } from "../../lib/utils";
+import {
+	compressFiles,
+	handleImageInput,
+	triggerImageInput,
+} from "../../lib/utils";
 import { createProject } from "../../actions/create-project";
 import { useRouter } from "next/navigation";
 export default function NewProject({ profileId }: { profileId: string }) {
@@ -20,19 +24,6 @@ export default function NewProject({ profileId }: { profileId: string }) {
 	const handleOpenModal = () => {
 		setIsOpen(true);
 	};
-
-	function triggerImageInput(id: string) {
-		document.getElementById(id)?.click();
-	}
-
-	function handleImageInput(e: React.ChangeEvent<HTMLInputElement>) {
-		const file = e.target.files?.[0] ?? null;
-		if (file) {
-			const imageURL = URL.createObjectURL(file);
-			return imageURL;
-		}
-		return null;
-	}
 
 	async function handleCreateProject() {
 		setIsCreatingProject(true);
