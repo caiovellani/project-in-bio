@@ -1,7 +1,9 @@
 "use client";
 
+import { increaseProjectVisits } from "@/app/actions/increase-project-visits";
 import { formatUrl } from "@/app/lib/utils";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import type { ProjectData } from "../../server/get-profile-data";
 
 export default function ProjectCard({
@@ -13,10 +15,13 @@ export default function ProjectCard({
 	isOwner: boolean;
 	img: string;
 }) {
+	const { profileId } = useParams();
 	const formattedUrl = formatUrl(project.projectUrl);
 
-	function handleClick() {
-		console.log("clicked"); // TODO: implementar analytics
+	async function handleClick() {
+		if (!profileId || !project.id || isOwner) return;
+
+		await increaseProjectVisits(profileId as string, project.id);
 	}
 
 	return (

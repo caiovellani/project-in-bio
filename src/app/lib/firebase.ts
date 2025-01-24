@@ -1,7 +1,7 @@
+import "server-only";
 import { cert, initializeApp, getApps } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import { getStorage } from "firebase-admin/storage";
-import "server-only";
 
 // Certificado
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
