@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 export default function useOnClickOutside(
-	ref: React.RefObject<HTMLDivElement>,
+	ref: React.RefObject<HTMLDivElement | null>,
 	handler?: (event: MouseEvent | TouchEvent) => void,
 ) {
 	useEffect(() => {
@@ -19,5 +19,5 @@ export default function useOnClickOutside(
 			document.removeEventListener("mousedown", listener);
 			document.removeEventListener("touchstart", listener);
 		};
-	}, []);
+	}, [ref, handler]);
 }
